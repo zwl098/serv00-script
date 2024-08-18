@@ -122,7 +122,7 @@ check_pm2_vless_snapshot() {
 
 # 检查pm2 vless的状态
 check_pm2_vless_status() {
-    pm2 describe vless &>/dev/null
+    ~/.npm-global/bin/pm2 describe vless &>/dev/null
     if [[ $? -eq 0 ]]; then
         check_vless_status
     else
@@ -132,7 +132,7 @@ check_pm2_vless_status() {
 }
 # 主函数
 main() {
-    local port=3000  # Default port
+    local port=26350  # Default port
     port_provided=false  # Flag to check if port is provided
 
     while getopts ":p:" opt; do
