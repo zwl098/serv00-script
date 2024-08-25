@@ -77,9 +77,9 @@ deploy_vless() {
     # 安装依赖
     npm install
     # 启动vless项目
-    ~/.npm-global/bin/pm2 start ~/domains/$USER.serv00.net/vless/app.js --name vless
+    pm2 start ~/domains/$USER.serv00.net/vless/app.js --name vless
     # 保存pm2进程状态
-    ~/.npm-global/bin/pm2 save
+    pm2 save
     # ANSI颜色码
     output_yi_xiu
     echo -e "端口号: ${GREEN}${port}${NC}"
@@ -92,17 +92,17 @@ deploy_vless() {
 # 启动pm2 vless进程
 start_pm2_vless_process() {
     echo "正在启动pm2 vless进程..."
-    ~/.npm-global/bin/pm2 start ~/domains/$USER.serv00.net/vless/app.js --name vless
+    pm2 start ~/domains/$USER.serv00.net/vless/app.js --name vless
     echo -e "${GREEN}pm2 vless进程已启动。${NC}"
 }
 # 检查vless的状态
 check_vless_status() {
-    status=$(~/.npm-global/bin/pm2 status vless | grep -w 'vless' | awk '{print $18}')
+    status=$(pm2 status vless | grep -w 'vless' | awk '{print $18}')
     if [[ "$status" == "online" ]]; then
         echo "vless进程正在运行。"
     else
         echo "vless进程未运行或已停止，正在重启..."
-        ~/.npm-global/bin/pm2 restart vless
+        pm2 restart vless
         echo -e "${GREEN}vless进程已重启。${NC}"
     fi
 }
@@ -110,7 +110,7 @@ check_vless_status() {
 check_pm2_vless_snapshot() {
     if [[ -f ~/.pm2/dump.pm2 ]]; then
         echo "检测到pm2 vless快照，正在恢复..."
-        ~/.npm-global/bin/pm2 resurrect
+        pm2 resurrect
         echo -e "${GREEN}pm2 vless快照已恢复。${NC}"
         check_vless_status
     else
@@ -122,7 +122,7 @@ check_pm2_vless_snapshot() {
 
 # 检查pm2 vless的状态
 check_pm2_vless_status() {
-    ~/.npm-global/bin/pm2 describe vless &>/dev/null
+    pm2 describe vless &>/dev/null
     if [[ $? -eq 0 ]]; then
         check_vless_status
     else
